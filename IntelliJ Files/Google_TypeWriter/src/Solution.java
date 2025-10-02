@@ -28,17 +28,9 @@ import java.io.*;
  * long modPow(long x,long y,long MOD)                       //Calc Power With MOD
  * boolean isSafe(T [][], row,col)                           //Returns whether current row and col are under bounds
  * T Log2(T num)                                             //Returns (Math.log(num) / Math.log(2))
- 
+ * long nCr(long n,long r)                                   // Returns nCr value
+ * long nCrMod(long n,long r)                                // Returns nCr % MOD value
  * */
-
-class Single
-{
-    int min;
-    Single()
-    {
-        this.min = 1000000;
-    }
-}
 
 
 public class Solution {
@@ -246,6 +238,36 @@ class Helper
         return (double) (Math.log(num) / Math.log(2));
     }
 
+    public long nCr(long n,long r)
+    {
+        if(r > n - r)
+            r = n - r;
+        long res = 1;
+        for(long x = 0;x < r;x++) {
+            res *= (n - x);
+            res /= (x + 1);
+        }
+        return res;
+    }
+
+    public long nCrMod(long n,long r,long md)
+    {
+        if(r > n - r)
+            r = n - r;
+        long res = 1;
+        for(long x = 0;x < r;x++) {
+            res = (res * (n - x)) % md;
+            res = (res * (modInverse(x + 1,md) % md)) % md;
+            res %= md;
+        }
+        return res % md;
+    }
+
+    public long modInverse(long n,long md)
+    {
+        return modPow(n,md - 2,md);
+    }
+
     public int getGCD(int a,int b)
     {
         if(b == 0)
@@ -342,7 +364,7 @@ class Helper
     }
 
 
-    public static long fastPow(long n,long p)
+    public long fastPow(long n,long p)
     {
         long res = 1;
         while(p > 0){
@@ -353,7 +375,7 @@ class Helper
         }
         return res;
     }
-    public static long modPow(long n,long p,long md)
+    public long modPow(long n,long p,long md)
     {
         long res = 1;
         n = n % md;

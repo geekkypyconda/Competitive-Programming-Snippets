@@ -2,63 +2,33 @@ import java.util.*;
 import java.io.*;
 import java.math.*;
 import java.lang.*;
-
-/* Hepler Class Methods **only Few Imp Ones**
-
-* int[][] getIntMatrix(String s,int r,int c)                //Works only for int and long
-* char getCharacterValue(int i)
-* int getIntegerValueOfCharacter(char c)
-* boolean isPerfectSquare(int n)                            // works only for int and long
-* int getLargestPrimeFactor(int n)                          //works only for int and long
-* boolean isPrime(int n)                                    //works only for int and long
-* void printArray(int a[]),                                 //works for all
-* void printMatrix(int a[][]),                              //works for all
-* void printNestedList(ArrayList<ArrayList<Integer>> a)     //works for all
-* boolean isPalindrome                                      //works for all except Character
-* T swap(T)                                                 //works only for int[],long[] and String
-* T getArraySum(T[])                                        //works only for int[],long[],double[]
-* T reverse(T)                                              //works only for String,int and long
-* T[] getReverseArray(T[])                                  //works for all
-* HashSet<T> getHashSet(T[])                                //works for int[],long[],char[],String[]
-* T setBit(T,k,side)                                        //works only when n =2 int or long and k is always int **returns int or long**
-* String setBitString(T,k,side)                             //works only when n = int or long and k is always int **returns String**
-* String cvtToBinary(T)
-* int cvtToDecimal(String n)                                //Always returns Long
-* int getSetBits(long n)                                    //Returns no of set bits in given number
-* boolean isPowerOf2(T)
-* long fastPow(long x,long y)                               //Calc Power in O(log y) time
-* long modPow(long x,long y,long MOD)                       //Calc Power With MOD
-* boolean isSafe(T [][], row,col)                           //Returns whether current row and col are under bounds
-* T Log2(T num)                                             //Returns (Math.log(num) / Math.log(2))
-* */
-
+import java.util.HashSet;
 
 class Codechef {
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in),256 * 1024);
+    static BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out),256 * 1024);
     static Helper sc = new Helper(br);
     static int MOD = 1000000007,INF = Integer.MAX_VALUE,SEM_INF = INF / 2,NEG_INF = Integer.MIN_VALUE;
-    static long MAX_INF = Long.MAX_VALUE;
+    static long MAX_INF = Long.MAX_VALUE - 1000, NEG_MAX_INF = Long.MIN_VALUE + 1000;
     static BigInteger B = new BigInteger("1");
 //    static Scanner sc = new Scanner(System.in);
-    static long dp[] = new long[3001];
+
     public static void main(String args[]) {
         try {
             int t = sc.getInt(br.readLine());
-            while (t-- > 0)
-            {
+//            preComp();
+            while (t-- > 0) {
                 testCase();
             }
             out.flush();
         } catch (Exception e) {
-            System.out.println("Exception Occured: " + e.getMessage());
+            System.out.println("Exception Occurred: " + e.getMessage());
             e.printStackTrace();
         }
 
     }
 
-    public static void testCase() throws Exception
-    {
+    public static void testCase() throws Exception {
 
     }
 
@@ -143,9 +113,27 @@ class Helper
         return fr.nextFloat();
     }
 
-    public int  [] getIntArray( String s) throws Exception
+    public int  [] getIntArray() throws Exception
     {
-        String input[] = s.split(" ");
+        String s = this.trimLine();
+        return this.getIntArrayFromLine(s);
+    }
+
+    public long  [] getLongArray() throws Exception
+    {
+        String s = this.trimLine();
+        return this.getLongArrayFromLine(s);
+    }
+
+    public double  [] getDoubleArray() throws Exception
+    {
+        String s = this.trimLine();
+        return this.getDoubleArrayFromLine(s);
+    }
+
+    public int  [] getIntArrayFromLine(String s) throws Exception
+    {
+        String input[] =  s.split(" ");
         int res[] = new int[input.length];
         for(int x = 0;x < res.length;x++)
             res[x] = getInt(input[x]);
@@ -153,7 +141,7 @@ class Helper
         return res;
     }
 
-    public long  [] getLongArray( String s) throws Exception
+    public long  [] getLongArrayFromLine(String s) throws Exception
     {
         String input[] = s.split(" ");
         long res[] = new long[input.length];
@@ -163,7 +151,7 @@ class Helper
         return res;
     }
 
-    public double  [] getDoubleArray( String s) throws Exception
+    public double  [] getDoubleArrayFromLine(String s) throws Exception
     {
         String input[] = s.split(" ");
         double res[] = new double[input.length];
@@ -173,26 +161,64 @@ class Helper
         return res;
     }
 
-    public int[][] getIntMatrix(String s,int r,int c)
+    public int[][] getIntMatrix(int r,int c) throws Exception
+    {
+        int mat[][] = new int[r][c];
+        for(int x = 0;x < r;x++)
+            mat[x] = this.getIntArrayFromLine(this.trimLine());
+
+        return mat;
+    }
+
+    public long[][] getLongMatrix(int r,int c) throws Exception
+    {
+        long mat[][] = new long[r][c];
+        for(int x = 0;x < r;x++)
+            mat[x] = this.getLongArrayFromLine(this.trimLine());
+
+        return mat;
+    }
+
+    public double[][] getDoubleMatrix(int r,int c) throws Exception
+    {
+        double mat[][] = new double[r][c];
+        for(int x = 0;x < r;x++)
+            mat[x] = this.getDoubleArrayFromLine(this.trimLine());
+
+        return mat;
+    }
+
+    public int[][] getIntMatrixFromLine(String s, int r,int c) throws Exception
     {
         int i = 0;int mat[][] = new int[r][c];
         String st[] = s.split(" ");
         for(int x = 0;x < r;x++)
             for(int y =0 ;y < c;y++)
                 mat[x][y] = Integer.parseInt(st[i++]);
-        return mat;
 
+        return mat;
     }
 
-    public long[][] getlongMatrix(String s,int r,int c)
+    public long[][] getLongMatrixFromLine(String s, int r,int c) throws Exception
     {
         int i = 0;long mat[][] = new long[r][c];
         String st[] = s.split(" ");
         for(int x = 0;x < r;x++)
             for(int y =0 ;y < c;y++)
                 mat[x][y] = Long.parseLong(st[i++]);
-        return mat;
 
+        return mat;
+    }
+
+    public double[][] getDoubleMatrixFromLine(String s, int r,int c) throws Exception
+    {
+        int i = 0;double mat[][] = new double[r][c];
+        String st[] = s.split(" ");
+        for(int x = 0;x < r;x++)
+            for(int y =0 ;y < c;y++)
+                mat[x][y] = Double.parseDouble(st[i++]);
+
+        return mat;
     }
 
     public int getInt(String s)
@@ -214,15 +240,6 @@ class Helper
 
     /*Some basic hepler methods*/
 
-    public char getCharacterValue(int i)
-    {
-        return (char)i;
-    }
-    public int getIntegerValueOfCharacter(char c)
-    {
-        return (int)c;
-    }
-
     public int Log2(int num)
     {
         return (int)(Math.log(num) / Math.log(2));
@@ -236,6 +253,36 @@ class Helper
     public double Log2(double num)
     {
         return (double) (Math.log(num) / Math.log(2));
+    }
+
+    public long nCr(long n,long r)
+    {
+        if(r > n - r)
+            r = n - r;
+        long res = 1;
+        for(long x = 0;x < r;x++) {
+            res *= (n - x);
+            res /= (x + 1);
+        }
+        return res;
+    }
+
+    public long nCrMod(long n,long r,long md)
+    {
+        if(r > n - r)
+            r = n - r;
+        long res = 1;
+        for(long x = 0;x < r;x++) {
+            res = (res * (n - x)) % md;
+            res = (res * (modInverse(x + 1,md) % md)) % md;
+            res %= md;
+        }
+        return res % md;
+    }
+
+    public long modInverse(long n,long md)
+    {
+        return modPow(n,md - 2,md);
     }
 
     public int getGCD(int a,int b)
@@ -288,22 +335,16 @@ class Helper
     }
     public boolean isSafe(long a[][],int x,int y)
     {
-        if(x >=0 && y >= 0 && x < a.length && y < a[0].length)
-            return true;
-        return false;
+        return x >= 0 && y >= 0 && x < a.length && y < a[0].length;
     }
     public boolean isSafe(double a[][],int x,int y)
     {
-        if(x >=0 && y >= 0 && x < a.length && y < a[0].length)
-            return true;
-        return false;
+        return x >= 0 && y >= 0 && x < a.length && y < a[0].length;
     }
 
     public boolean isSafe(char a[][],int x,int y)
     {
-        if(x >=0 && y >= 0 && x < a.length && y < a[0].length)
-            return true;
-        return false;
+        return x >= 0 && y >= 0 && x < a.length && y < a[0].length;
     }
 
     public boolean isPerfectSquare(int n)
@@ -334,7 +375,7 @@ class Helper
     }
 
 
-    public static long fastPow(long n,long p)
+    public long fastPow(long n,long p)
     {
         long res = 1;
         while(p > 0){
@@ -345,7 +386,7 @@ class Helper
         }
         return res;
     }
-    public static long modPow(long n,long p,long md)
+    public long modPow(long n,long p,long md)
     {
         long res = 1;
         n = n % md;
@@ -366,8 +407,6 @@ class Helper
         return (Integer.parseInt(sb.reverse().toString()) == n);
     }
 
-
-
     public boolean isPalindrome(long n)
     {
         StringBuilder sb = new StringBuilder(n + "");
@@ -376,10 +415,9 @@ class Helper
 
     public boolean isPalindrome(String s)
     {
-        StringBuilder sb = new StringBuilder(s + "");
+        StringBuilder sb = new StringBuilder(s);
         return (sb.reverse().toString().equals(s));
     }
-
 
     public int getSmallestPrimeFactor(int n)
     {
@@ -468,298 +506,13 @@ class Helper
         return false;
     }
 
-    public int getSetBits(long n)
+    public StringBuilder swap(StringBuilder sb,int i,int j)
     {
-        int count = 0;
-        while (n > 0){
-            count += n % 2;
-            n /= 2;
-        }
-        return count;
-    }
+        char a = sb.charAt(i),b = sb.charAt(j);
+        sb.setCharAt(i,b);
+        sb.setCharAt(j,a);
 
-    public int setBit(int n,int k,String side) throws Exception
-    {
-        if(side.equalsIgnoreCase("r") || side.equalsIgnoreCase("right")){
-            return ((1 << k) | n);
-        }else if(side.equalsIgnoreCase("l") || side.equalsIgnoreCase("left")){
-            return (int)cvtToDecimal(setBitString(n,k,"l"));
-        }else
-            throw new Exception("Unknown Side of shift! side must be l,left,r,right");
-
-    }
-
-    public long setBit(long n,int k,String side) throws Exception
-    {
-        if(side.equalsIgnoreCase("r") || side.equalsIgnoreCase("right")){
-            return ((1 << k) | n);
-        }else if(side.equalsIgnoreCase("l") || side.equalsIgnoreCase("left")){
-            return cvtToDecimal(setBitString(n,k,"l"));
-        }else
-            throw new Exception("Unknown Side of shift! side must be l,left,r,right");
-
-
-    }
-
-    public String setBitString(int n,int k,String side) throws Exception
-    {
-        StringBuilder sb = new StringBuilder(cvtToBinary(n) + "");
-        if(side.equalsIgnoreCase("r") || side.equalsIgnoreCase("right")){
-            sb.setCharAt(sb.length() - 1 - k,'1');
-        }else if(side.equalsIgnoreCase("l") || side.equalsIgnoreCase("left")){
-            sb.setCharAt(k,'1');
-        }else
-            throw new Exception("Unknown Side of shift! side must be l,left,r,right");
-        return sb.toString();
-    }
-
-    public String setBitString(long n, int k,String side) throws Exception
-    {
-        StringBuilder sb = new StringBuilder(cvtToBinary(n) + "");
-        if(side.equalsIgnoreCase("r") || side.equalsIgnoreCase("right")){
-            sb.setCharAt(sb.length() - 1 - k,'1');
-        }else if(side.equalsIgnoreCase("l") || side.equalsIgnoreCase("left")){
-            sb.setCharAt(k,'1');
-        }else
-            throw new Exception("Unknown Side of shift! side must be l,left,r,right");
-        return sb.toString();
-    }
-
-    public long cvtToDecimal(String n)
-    {
-        String num = n;
-        long dec_value = 0;
-
-        // Initializing base value to 1,
-        // i.e 2^0
-        long base = 1;
-
-        int len = num.length();
-        for (int i = len - 1; i >= 0; i--) {
-            if (num.charAt(i) == '1')
-                dec_value += base;
-            base = base * 2;
-        }
-
-        return dec_value;
-    }
-
-    public String cvtToBinary(int n)
-    {
-        if(n == 0 || n == 1)
-            return "" + n;
-        StringBuilder sb = new StringBuilder();
-        while (n > 1){
-            if(n % 2 == 0)
-                sb.append(0);
-            else
-                sb.append(1);
-            n /= 2;
-        }
-        if(n == 1)
-            sb.append(1);
-        return sb.reverse().toString();
-    }
-
-    public String cvtToBinary(long n)
-    {
-        if(n == 0 || n == 1)
-            return "" + n;
-        StringBuilder sb = new StringBuilder();
-        while (n > 1){
-            if(n % 2 == 0)
-                sb.append(0);
-            else
-                sb.append(1);
-            n /= 2;
-        }
-        if(n == 1)
-            sb.append(1);
-        return sb.reverse().toString();
-    }
-
-    /*Printing Arena*/
-
-    public void print(BufferedWriter out,Object s) throws Exception
-    {
-        out.write(String.valueOf(s));
-    }
-
-    public void println(BufferedWriter out,Object s) throws Exception
-    {
-        out.write(String.valueOf(s));
-    }
-
-    public void printArray(int a[],int s,int e,boolean nextLine)
-    {
-        if(e >= a.length || s < 0)
-            throw new ArrayIndexOutOfBoundsException("Array Index Out Of Bounds " + "[" + s + ", " + e + "] Array Size: " + a.length);
-        for(int x = s;x <= e;x++)
-            System.out.print(String.valueOf(a[x]) + " ");
-        if(nextLine)
-            System.out.println();
-
-    }
-
-    public void printArray(long a[],int s,int e,boolean nextLine)
-    {
-        if(e >= a.length || s < 0)
-            throw new ArrayIndexOutOfBoundsException("Array Index Out Of Bounds " + "[" + s + ", " + e + "] Array Size: " + a.length);
-        for(int x = s;x <= e;x++)
-            System.out.print(String.valueOf(a[x]) + " ");
-        if(nextLine)
-            System.out.println();
-
-    }
-
-    public void printArray(char a[],int s,int e,boolean nextLine)
-    {
-        if(e >= a.length || s < 0)
-            throw new ArrayIndexOutOfBoundsException("Array Index Out Of Bounds " + "[" + s + ", " + e + "] Array Size: " + a.length);
-        for(int x = s;x <= e;x++)
-            System.out.print(String.valueOf(a[x]) + " ");
-        if(nextLine)
-            System.out.println();
-
-    }
-
-    public void printArray(double a[],int s,int e,boolean nextLine)
-    {
-        if(e >= a.length || s < 0)
-            throw new ArrayIndexOutOfBoundsException("Array Index Out Of Bounds " + "[" + s + ", " + e + "] Array Size: " + a.length);
-        for(int x = s;x <= e;x++)
-            System.out.print(String.valueOf(a[x]) + " ");
-        if(nextLine)
-            System.out.println();
-
-    }
-    public void printArray(String a[],int s,int e,boolean nextLine)
-    {
-        if(e >= a.length || s < 0)
-            throw new ArrayIndexOutOfBoundsException("Array Index Out Of Bounds " + "[" + s + ", " + e + "] Array Size: " + a.length);
-        for(int x = s;x <= e;x++)
-            System.out.print(String.valueOf(a[x]) + " ");
-        if(nextLine)
-            System.out.println();
-
-    }
-
-    public void printArray(Object a[],int s,int e,boolean nextLine)
-    {
-        if(e >= a.length || s < 0)
-            throw new ArrayIndexOutOfBoundsException("Array Index Out Of Bounds " + "[" + s + ", " + e + "] Array Size: " + a.length);
-        for(int x = s;x <= e;x++)
-            System.out.print(a[x].toString() + " ");
-        if(nextLine)
-            System.out.println();
-
-    }
-
-
-    public void printMatrix(int a[][])
-    {
-        for(int x = 0;x < a.length;x++){
-            for (int y = 0;y < a[0].length;y++)
-                System.out.print(a[x][y] + " ");
-            System.out.println();
-        }
-
-    }
-
-    public void printMatrix(long a[][])
-    {
-        for(int x = 0;x < a.length;x++){
-            for (int y = 0;y < a[0].length;y++)
-                System.out.print(String.valueOf(a[x][y]) + " ");
-            System.out.println();
-        }
-
-    }
-    public void printMatrix(char a[][])
-    {
-        for(int x = 0;x < a.length;x++){
-            for (int y = 0;y < a[0].length;y++)
-                System.out.print(String.valueOf(a[x][y]) + " ");
-            System.out.println();
-        }
-
-    }
-    public void printMatrix(double a[][])
-    {
-        for(int x = 0;x < a.length;x++){
-            for (int y = 0;y < a[0].length;y++)
-                System.out.print(String.valueOf(a[x][y]) + " ");
-            System.out.println();
-        }
-
-    }
-
-    public void printMatrix(String a[][])
-    {
-        for(int x = 0;x < a.length;x++){
-            for (int y = 0;y < a[0].length;y++)
-                System.out.print(String.valueOf(a[x][y]) + " ");
-            System.out.println();
-        }
-
-    }
-
-    public void printMatrix(Object a[][])
-    {
-        for(int x = 0;x < a.length;x++){
-            for (int y = 0;y < a[0].length;y++)
-                System.out.print(a[x][y].toString() + " ");
-            System.out.println();
-        }
-
-    }
-
-
-    public void printIntNestedList(ArrayList<ArrayList<Integer>> a)
-    {
-        for(int x = 0;x < a.size();x++){
-            ArrayList<Integer> al = a.get(x);
-            for(int y = 0;y < al.size();y++)
-                System.out.print(String.valueOf(al.get(y)) + " ");
-            System.out.println();
-        }
-    }
-    public void printLongNestedList(ArrayList<ArrayList<Long>> a)
-    {
-        for(int x = 0;x < a.size();x++){
-            ArrayList<Long> al = a.get(x);
-            for(int y = 0;y < al.size();y++)
-                System.out.print(String.valueOf(al.get(y)) + " ");
-            System.out.println();
-        }
-    }
-
-    public void printCharNestedList(ArrayList<ArrayList<Character>> a)
-    {
-        for(int x = 0;x < a.size();x++){
-            ArrayList<Character> al = a.get(x);
-            for(int y = 0;y < al.size();y++)
-                System.out.print(String.valueOf(al.get(y)) + " ");
-            System.out.println();
-        }
-    }
-
-    public void printStringNestedList(ArrayList<ArrayList<String>> a)
-    {
-        for(int x = 0;x < a.size();x++){
-            ArrayList<String> al = a.get(x);
-            for(int y = 0;y < al.size();y++)
-                System.out.print(String.valueOf(al.get(y)) + " ");
-            System.out.println();
-        }
-    }
-
-    public String swap(String st,int i,int j)
-    {
-        StringBuilder sb = new StringBuilder(st);
-        sb.setCharAt(i,st.charAt(j));
-        sb.setCharAt(j,st.charAt(i));
-        return sb.toString();
+        return sb;
     }
 
     public int [] swap(int a[],int i,int j)
@@ -778,15 +531,23 @@ class Helper
         return a;
     }
 
-    public long getArraySum(int a[],int s,int e)
+    public char[] swap(char a[],int i,int j)
     {
-        long sum = 0;
+        char t = a[i];
+        a[i] = a[j];
+        a[j] = t;
+        return a;
+    }
+
+    public int getArraySum(int a[],int s,int e)
+    {
+        int sum = 0;
         if(e >= a.length || s < 0)
             throw new ArrayIndexOutOfBoundsException("Array Index Out Of Bounds " + "[" + e + ", " + s + "]");
         for(int x = s;x <= e;x++)
             sum += a[x];
-        return sum;
 
+        return sum;
     }
 
     public long getArraySum(long a[],int s,int e)
@@ -810,25 +571,11 @@ class Helper
         return sum;
     }
 
-    public int reverse(int n)
-    {
-        StringBuilder sb = new StringBuilder(n + "");
-        return Integer.parseInt(sb.reverse().toString());
-    }
-
-    public long reverse(long n)
-    {
-        StringBuilder sb = new StringBuilder(n + "");
-        return Long.parseLong(sb.reverse().toString());
-    }
-
     public String reverse(String s)
     {
         StringBuilder sb = new StringBuilder(s + "");
         return sb.reverse().toString();
     }
-
-
 
     public Object[] getReverseArray(Object a[])
     {
@@ -907,13 +654,11 @@ class Helper
         return a;
     }
 
-
-
     public HashSet<Integer> getHashSet(int a[])
     {
         HashSet<Integer> set = new HashSet<>();
         for(int x = 0;x < a.length;x++)
-            set.add(a[x]);
+            set.add(Integer.valueOf(a[x]));
         return set;
     }
 
@@ -921,7 +666,7 @@ class Helper
     {
         HashSet<Long> set = new HashSet<>();
         for(int x = 0;x < a.length;x++)
-            set.add(a[x]);
+            set.add(Long.valueOf(a[x]));
         return set;
     }
 
@@ -929,7 +674,7 @@ class Helper
     {
         HashSet<Character> set = new HashSet<>();
         for(int x = 0;x < a.length;x++)
-            set.add(a[x]);
+            set.add(Character.valueOf(a[x]));
         return set;
     }
 
@@ -941,52 +686,164 @@ class Helper
         return set;
     }
 
-    public int getMax(int a[])
+    public int[] getMinMax(int a[])
     {
-        int max = Integer.MIN_VALUE;
-        for(int x = 0;x < a.length;x++)
-            max = Math.max(max,a[x]);
-        return max;
+        int max = Integer.MIN_VALUE, min = Integer.MAX_VALUE;;
+        for (int i : a) {
+            max = Math.max(max, i);
+            min = Math.min(min, i);
+        }
+
+        return new int[]{min,max};
     }
 
-    public long getMax(long a[])
+    public long[] getMinMax(long a[])
     {
-        long max = Long.MIN_VALUE;
-        for(int x = 0;x < a.length;x++)
-            max = Math.max(max,a[x]);
-        return max;
+        long max = Integer.MIN_VALUE, min = Integer.MAX_VALUE;;
+        for (long l : a) {
+            max = Math.max(max, l);
+            min = Math.min(min, l);
+        }
+
+        return new long[]{min,max};
     }
 
-    public double getMax(double a[])
+    public double[] getMinMax(double a[])
     {
-        double max = Double.MIN_VALUE;
-        for(int x = 0;x < a.length;x++)
-            max = Math.max(max,a[x]);
-        return max;
+        double max = Integer.MIN_VALUE, min = Integer.MAX_VALUE;;
+        for (double v : a) {
+            max = Math.max(max, v);
+            min = Math.min(min, v);
+        }
+
+        return new double[]{min,max};
     }
 
-    public int getMin(int a[])
-    {
-        int min = Integer.MAX_VALUE;
-        for(int x = 0;x < a.length;x++)
-            min = Math.min(min,a[x]);
-        return min;
+    class DSU {
+        int[] par,size;
+        int n;
+
+        // Constructor
+        public DSU(int n) {
+            this.n = n;
+            this.par = new int[n];
+            this.size = new int[n];
+            // Initially each element is its own parent
+            for (int i = 0; i < n; i++) {
+                par[i] = i;
+                size[i] = 1; // each set has rank 1 initially
+            }
+        }
+
+        // Find with path compression
+        public int findPar(int x) {
+            if (par[x] == x) return x;
+
+            par[x] = findPar(par[x]); // path compression
+
+            return par[x];
+        }
+
+        // Union by rank
+        public void union(int x, int y) {
+            int parA = findPar(x);
+            int parB = findPar(y);
+
+            if (parA == parB) return; // already in same set
+
+            // attach smaller set under larger set
+            if (size[parA] < size[parB]) {
+                par[parA] = parB;
+                size[parB] += size[parA];
+            } else {
+                par[parB] = parA;
+                size[parA] += size[parB];
+            }
+        }
+
+        // Check if two elements belong to the same set
+        public boolean isConnected(int x, int y) {
+            return findPar(x) == findPar(y);
+        }
+
     }
 
-    public long getMin(long a[])
-    {
-        long min = Long.MAX_VALUE;
-        for(int x = 0;x < a.length;x++)
-            min = Math.min(min,a[x]);
-        return min;
-    }
+    class Trie {
 
-    public double getMin(double a[])
-    {
-        double min = Double.MAX_VALUE;
-        for(int x = 0;x < a.length;x++)
-            min = Math.min(min,a[x]);
-        return min;
+        // Inner class representing each node in the Trie
+        class TrieNode {
+            TrieNode[] children;  // array of child references (a-z)
+            boolean isEndOfWord;  // true if this node marks the end of a word
+
+            public TrieNode() {
+                children = new TrieNode[26]; // English lowercase letters
+                isEndOfWord = false;
+            }
+        }
+
+        TrieNode root;
+
+        Trie() {
+            root = new TrieNode();
+        }
+
+        // Insert a word into the Trie
+        public void insert(String word) {
+            TrieNode node = root;
+            for (char ch : word.toCharArray()) {
+                int index = ch - 'a';
+                if (node.children[index] == null) {
+                    node.children[index] = new TrieNode();
+                }
+                node = node.children[index];
+            }
+            node.isEndOfWord = true;
+        }
+
+        // Search for a full word
+        public boolean search(String word) {
+            TrieNode node = root;
+            for (char ch : word.toCharArray()) {
+                int index = ch - 'a';
+                if (node.children[index] == null) {
+                    return false;
+                }
+                node = node.children[index];
+            }
+            return node.isEndOfWord;
+        }
+
+        // Check if any word starts with a given prefix
+        public boolean startsWith(String prefix) {
+            TrieNode node = root;
+            for (char ch : prefix.toCharArray()) {
+                int index = ch - 'a';
+                if (node.children[index] == null) {
+                    return false;
+                }
+                node = node.children[index];
+            }
+            return true;
+        }
+
+        // Print all words stored in the Trie
+        public void printAll() {
+            printAllHelper(root, new StringBuilder());
+        }
+
+        // Recursive DFS helper
+        private void printAllHelper(TrieNode node, StringBuilder prefix) {
+            if (node.isEndOfWord) {
+                System.out.println(prefix.toString());
+            }
+            for (int i = 0; i < 26; i++) {
+                if (node.children[i] != null) {
+                    prefix.append((char) ('a' + i));  // add current char
+                    printAllHelper(node.children[i], prefix);
+                    prefix.deleteCharAt(prefix.length() - 1); // backtrack
+                }
+            }
+        }
     }
 
     private class FastReader
