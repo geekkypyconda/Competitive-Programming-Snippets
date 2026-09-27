@@ -1,0 +1,3 @@
+ERROR: ORD014|Charlie Ray|Monitor|1|350.00|INVALID_DATE -> Invalid date format
+ERROR: ORD015|David Kim|Mouse|-2|20.00|2024-03-28 -> Negative quantity
+ERROR: ORD016|John Smith|Laptop|abc|1000.00|2024-03-29 -> Invalid quantity

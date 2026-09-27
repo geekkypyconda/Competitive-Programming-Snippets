@@ -1,0 +1,24 @@
+ERROR: ORD249|Rahul Sharma|Laptop|1|1200.00|2024-13-01 -> Invalid date format
+ERROR: ORD250|Priya Singh|Phone|2|400.00|2024/01/15 -> Invalid date format
+ERROR: ORD251|Amit Verma|Tablet|3|200.00|15-01-2024 -> Invalid date format
+ERROR: ORD254|Sneha Kapoor|Monitor|2|250.00|2024-02-30 -> Invalid date format
+ERROR: ORD255|Arjun Mehta|Laptop|1|1800.00|2023-02-29 -> Invalid date format
+ERROR: ORD256|Kavita Joshi|Chair|two|150.00|2024-01-23 -> Invalid quantity
+ERROR: ORD257|Rohit Agarwal|Desk|1|ninehundred|2024-01-24 -> Invalid unit price
+ERROR: ORD258|Meera Iyer|Mouse||30.00|2024-01-25 -> Invalid quantity
+ERROR: ORD259|Rahul Sharma|Keyboard|3||2024-02-12 -> Invalid unit price
+ERROR: ORD260||Laptop|1|1200.00|2024-01-10 -> Empty customer name
+ERROR: ORD261|Priya Singh||2|400.00|2024-01-11 -> Empty product name
+ERROR: ORD262|Amit Verma|Tablet|3|200.00| -> Invalid number of fields
+ERROR: ORD263|Neha Gupta|Mouse|5|20.00| -> Invalid number of fields
+ERROR: ORD264|Vikas Yadav|Laptop|1|1300.00|2024-01-26|EXTRA_FIELD -> Invalid number of fields
+ERROR: ORD265|Sneha Kapoor|Monitor|2|250.00|2024-01-27|EXTRA|DATA -> Invalid number of fields
+ERROR: ORD266|Arjun Mehta|Laptop|999999999|1800.00|2024-01-22 -> Selected quantity not available
+ERROR: ORD267|Kavita Joshi|Chair|3|-150.00|2024-01-23 -> Negative unit price
+ERROR: ORD269|Meera Iyer||Mouse|8|30.00|2024-01-25 -> Invalid number of fields
+ERROR: ORD270Rahul Sharma|Laptop|1|1200.00|2024-01-10 -> Invalid number of fields
+ERROR: ORD271|   |Tablet|2|350.00|2024-01-20 -> Empty customer name
+ERROR: ORD272|Sneha Kapoor|   |1|800.00|2024-01-21 -> Empty product name
+ERROR: ORD273|Arjun Mehta|Laptop|1|1,800.00|2024-01-22 -> Invalid unit price
+ERROR: ORD274|Kavita Joshi|Chair|3|150.00|2024-01-23T10:15:30 -> Invalid date format
+ERROR: ORD305 |Rohit Agarwal|Desk|1|900.00|2024-03-03 -> Duplicate OrderID

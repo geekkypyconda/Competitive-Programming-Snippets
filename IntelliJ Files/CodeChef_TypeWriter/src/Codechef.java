@@ -8,7 +8,7 @@ class Codechef {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in),256 * 1024);
     static BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out),256 * 1024);
     static Helper sc = new Helper(br);
-    static int MOD = 1000000007,INF = Integer.MAX_VALUE,SEM_INF = INF / 2,NEG_INF = Integer.MIN_VALUE;
+    static long MOD = 1000000007,INF = Integer.MAX_VALUE,SEM_INF = INF / 2,NEG_INF = Integer.MIN_VALUE;
     static long MAX_INF = Long.MAX_VALUE - 1000, NEG_MAX_INF = Long.MIN_VALUE + 1000;
     static BigInteger B = new BigInteger("1");
 //    static Scanner sc = new Scanner(System.in);
@@ -28,8 +28,47 @@ class Codechef {
 
     }
 
-    public static void testCase() throws Exception {
+    static class Pair{
+        int index, val;
 
+        public Pair(int index, int val) {
+            this.index = index;
+            this.val = val;
+        }
+    }
+
+    public static void testCase() throws Exception {
+        int n = sc.nextInt(), a[] = sc.getIntArray();
+
+        Pair p[] = new Pair[n];
+        for(int x = 0;x < n;x++)
+            p[x] = new Pair(x, a[x]);
+
+        Arrays.sort(p, Comparator.comparingInt(m -> m.val));
+        int ans[] = new int[n];
+
+        for(int x = 1;x < n - 1;x++){
+            int curr = p[x].val, next = p[x + 1].val, prev = p[x - 1].val;
+
+            int mid = (curr + prev) / 2;
+            int left = mid + 1;
+            mid = (curr + next) / 2;
+            int right = mid;
+
+            ans[p[x].index] = right - left + 1;
+
+//            if(p[x].val == 7){
+//                writeln(left + ", " + right);
+//            }
+        }
+
+        ans[p[0].index] = -1;
+        ans[p[n - 1].index] = -1;
+
+        for(int x = 0;x < n;x++)
+            write(ans[x] + " ");
+
+        writeln();
     }
 
     public static void writeln() throws Exception
@@ -75,10 +114,9 @@ class Helper
         }
     }
 
-
     /* Inputs*/
 
-    public String next() throws Exception
+    private String next() throws Exception
     {
         return fr.next();
     }
@@ -240,19 +278,19 @@ class Helper
 
     /*Some basic hepler methods*/
 
-    public int Log2(int num)
+    public double LogABaseB(int A,int B)
     {
-        return (int)(Math.log(num) / Math.log(2));
+        return (Math.log(A) / Math.log(B));
     }
 
-    public long Log2(long num)
+    public double LogABaseB(long A, long B)
     {
-        return (long) (Math.log(num) / Math.log(2));
+        return (Math.log(A) / Math.log(B));
     }
 
-    public double Log2(double num)
+    public double LogABaseB(double A, double B)
     {
-        return (double) (Math.log(num) / Math.log(2));
+        return (Math.log(A) / Math.log(B));
     }
 
     public long nCr(long n,long r)
@@ -539,9 +577,9 @@ class Helper
         return a;
     }
 
-    public int getArraySum(int a[],int s,int e)
+    public long getArraySum(int a[],int s,int e)
     {
-        int sum = 0;
+        long sum = 0;
         if(e >= a.length || s < 0)
             throw new ArrayIndexOutOfBoundsException("Array Index Out Of Bounds " + "[" + e + ", " + s + "]");
         for(int x = s;x <= e;x++)
@@ -699,7 +737,7 @@ class Helper
 
     public long[] getMinMax(long a[])
     {
-        long max = Integer.MIN_VALUE, min = Integer.MAX_VALUE;;
+        long max = Long.MIN_VALUE, min = Long.MAX_VALUE;;
         for (long l : a) {
             max = Math.max(max, l);
             min = Math.min(min, l);
@@ -710,13 +748,39 @@ class Helper
 
     public double[] getMinMax(double a[])
     {
-        double max = Integer.MIN_VALUE, min = Integer.MAX_VALUE;;
+        double max = Double.MIN_VALUE, min = Double.MAX_VALUE;;
         for (double v : a) {
             max = Math.max(max, v);
             min = Math.min(min, v);
         }
 
         return new double[]{min,max};
+    }
+
+    boolean[] getSeive(int n) {
+        boolean[] isPrime;
+        isPrime = new boolean[n + 1];
+
+        // assume all numbers are prime initially
+        for (int i = 2; i <= n; i++) {
+            isPrime[i] = true;
+        }
+
+        // Sieve logic
+        for (int i = 2; i * i <= n; i++) {
+            if (isPrime[i]) {
+                // mark all multiples of i as not prime
+                for (int j = i * i; j <= n; j += i) {
+                    isPrime[j] = false;
+                }
+            }
+        }
+
+        return isPrime;
+    }
+
+    DSU getDSU(int n){
+        return new DSU(n);
     }
 
     class DSU {
@@ -767,85 +831,6 @@ class Helper
         }
 
     }
-
-    class Trie {
-
-        // Inner class representing each node in the Trie
-        class TrieNode {
-            TrieNode[] children;  // array of child references (a-z)
-            boolean isEndOfWord;  // true if this node marks the end of a word
-
-            public TrieNode() {
-                children = new TrieNode[26]; // English lowercase letters
-                isEndOfWord = false;
-            }
-        }
-
-        TrieNode root;
-
-        Trie() {
-            root = new TrieNode();
-        }
-
-        // Insert a word into the Trie
-        public void insert(String word) {
-            TrieNode node = root;
-            for (char ch : word.toCharArray()) {
-                int index = ch - 'a';
-                if (node.children[index] == null) {
-                    node.children[index] = new TrieNode();
-                }
-                node = node.children[index];
-            }
-            node.isEndOfWord = true;
-        }
-
-        // Search for a full word
-        public boolean search(String word) {
-            TrieNode node = root;
-            for (char ch : word.toCharArray()) {
-                int index = ch - 'a';
-                if (node.children[index] == null) {
-                    return false;
-                }
-                node = node.children[index];
-            }
-            return node.isEndOfWord;
-        }
-
-        // Check if any word starts with a given prefix
-        public boolean startsWith(String prefix) {
-            TrieNode node = root;
-            for (char ch : prefix.toCharArray()) {
-                int index = ch - 'a';
-                if (node.children[index] == null) {
-                    return false;
-                }
-                node = node.children[index];
-            }
-            return true;
-        }
-
-        // Print all words stored in the Trie
-        public void printAll() {
-            printAllHelper(root, new StringBuilder());
-        }
-
-        // Recursive DFS helper
-        private void printAllHelper(TrieNode node, StringBuilder prefix) {
-            if (node.isEndOfWord) {
-                System.out.println(prefix.toString());
-            }
-            for (int i = 0; i < 26; i++) {
-                if (node.children[i] != null) {
-                    prefix.append((char) ('a' + i));  // add current char
-                    printAllHelper(node.children[i], prefix);
-                    prefix.deleteCharAt(prefix.length() - 1); // backtrack
-                }
-            }
-        }
-    }
-
     private class FastReader
     {
         BufferedReader br;

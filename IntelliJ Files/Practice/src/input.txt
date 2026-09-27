@@ -1,0 +1,16 @@
+ORD001|John Smith|Laptop|2|999.99|2024-03-15
+ORD002|Alice Brown|Phone|1|699.50|2024-03-16
+ORD003|Bob Lee|Tablet|3|250.00|2024-03-17
+ORD004|John Smith|Mouse|5|25.00|2024-03-18
+ORD005|Alice Brown|Monitor|2|300.00|2024-03-19
+ORD006|Charlie Ray|Keyboard|4|45.00|2024-03-20
+ORD007|David Kim|Laptop|1|1200.00|2024-03-21
+ORD008|Bob Lee|Phone|2|650.00|2024-03-22
+ORD009|Charlie Ray|Tablet|2|200.00|2024-03-23
+ORD010|John Smith|Desk|1|400.00|2024-03-24
+ORD011|David Kim|Chair|2|150.00|2024-03-25
+ORD012|Alice Brown|Headphones|3|80.00|2024-03-26
+ORD013|Bob Lee|Camera|1|800.00|2024-03-27
+ORD014|Charlie Ray|Monitor|1|350.00|INVALID_DATE
+ORD015|David Kim|Mouse|-2|20.00|2024-03-28
+ORD016|John Smith|Laptop|abc|1000.00|2024-03-29

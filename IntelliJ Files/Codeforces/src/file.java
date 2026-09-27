@@ -1,3 +1,5 @@
+import javax.crypto.spec.OAEPParameterSpec;
+import java.lang.reflect.Array;
 import java.util.*;
 import java.io.*;
 import java.math.*;
@@ -8,15 +10,15 @@ public class file {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in),256 * 1024);
     static BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out),256 * 1024);
     static Helper sc = new Helper(br);
-    static int MOD = 1000000007,INF = Integer.MAX_VALUE,SEM_INF = INF / 2,NEG_INF = Integer.MIN_VALUE;
-    static long MAX_INF = Long.MAX_VALUE - 1000, NEG_MAX_INF = Long.MIN_VALUE + 1000;
+    static long MOD = 1000000007L,INF = Integer.MAX_VALUE,SEM_INF = INF / 2,NEG_INF = Integer.MIN_VALUE;
+    static long MAX_INF = Long.MAX_VALUE, NEG_MAX_INF = Long.MIN_VALUE;
     static BigInteger B = new BigInteger("1");
 //    static Scanner sc = new Scanner(System.in);
 
     public static void main(String args[]) {
         try {
             int t = sc.getInt(br.readLine());
-//            preComp();
+//            int t = 1;
             while (t-- > 0) {
                 testCase();
             }
@@ -28,8 +30,90 @@ public class file {
 
     }
 
-    public static void testCase() throws Exception {
+    static class Pair{
+        int min, max;
+        Pair(){
+            this.min = (int)INF - 1000;
+            this.max = -1;
+        }
 
+        void setMin(int val){
+            min = Math.min(min, val);
+        }
+
+        void setMax(int val){
+            max = Math.max(max, val);
+        }
+
+        int getFromBit(int bit){
+            if(bit == 0) return min;
+            return max;
+        }
+
+        int getDis(){
+           return max - min;
+        }
+    }
+
+    public static void testCase() throws Exception {
+        int n = sc.nextInt();
+        int a[] = sc.getIntArray();
+
+        int min = sc.getMinMax(a)[0];
+        HashMap<Integer, Integer>[] map = new HashMap[n];
+        for(int x = 0;x < n;x++) map[x] = chain(a[x]);
+
+        long ans = Math.min(get(map, 1),get(map, 2));
+
+        while (min != 1){
+            ans = Math.min(ans, get(map, min));
+            if(min % 2 == 0)
+                min /= 2;
+            else min++;
+        }
+
+        writeln(ans);
+    }
+
+    static long get(HashMap<Integer, Integer> map[], int val){
+        int n = map.length;
+
+        long ans = 0;
+        for(int x = 0;x < n;x++){
+            if(!map[x].containsKey(val))
+                return INF;
+
+            long curr = map[x].get(val);
+            ans += curr;
+        }
+
+        return ans;
+    }
+
+    static void chain(int n){
+        HashMap<Integer, Integer> map = new HashMap<>();
+        if(n == 1){
+            map.put(1,0);
+            map.put(2,1);
+            return map;
+        }
+
+        int code = 0;
+        while (n != 1){
+            if(!map.containsKey(n))
+                map.put(n,code);
+
+            if(n % 2 == 0)
+                n /= 2;
+            else
+                n++;
+
+            code++;
+        }
+
+        map.put(1,code);
+
+        return map;
     }
 
     public static void writeln() throws Exception
@@ -77,7 +161,7 @@ class Helper
 
     /* Inputs*/
 
-    public String next() throws Exception
+    private String next() throws Exception
     {
         return fr.next();
     }
@@ -85,6 +169,11 @@ class Helper
     public int nextInt() throws Exception
     {
         return fr.nextInt();
+    }
+
+    public char nextChar() throws Exception
+    {
+        return fr.nextChar();
     }
 
     public long nextLong() throws Exception
@@ -239,19 +328,19 @@ class Helper
 
     /*Some basic hepler methods*/
 
-    public int Log2(int num)
+    public double LogABaseB(int A,int B)
     {
-        return (int)(Math.log(num) / Math.log(2));
+        return (Math.log(A) / Math.log(B));
     }
 
-    public long Log2(long num)
+    public double LogABaseB(long A, long B)
     {
-        return (long) (Math.log(num) / Math.log(2));
+        return (Math.log(A) / Math.log(B));
     }
 
-    public double Log2(double num)
+    public double LogABaseB(double A, double B)
     {
-        return (double) (Math.log(num) / Math.log(2));
+        return (Math.log(A) / Math.log(B));
     }
 
     public long nCr(long n,long r)
@@ -538,9 +627,9 @@ class Helper
         return a;
     }
 
-    public int getArraySum(int a[],int s,int e)
+    public long getArraySum(int a[],int s,int e)
     {
-        int sum = 0;
+        long sum = 0;
         if(e >= a.length || s < 0)
             throw new ArrayIndexOutOfBoundsException("Array Index Out Of Bounds " + "[" + e + ", " + s + "]");
         for(int x = s;x <= e;x++)
@@ -698,7 +787,7 @@ class Helper
 
     public long[] getMinMax(long a[])
     {
-        long max = Integer.MIN_VALUE, min = Integer.MAX_VALUE;;
+        long max = Long.MIN_VALUE, min = Long.MAX_VALUE;;
         for (long l : a) {
             max = Math.max(max, l);
             min = Math.min(min, l);
@@ -709,13 +798,43 @@ class Helper
 
     public double[] getMinMax(double a[])
     {
-        double max = Integer.MIN_VALUE, min = Integer.MAX_VALUE;;
+        double max = Double.MIN_VALUE, min = Double.MAX_VALUE;;
         for (double v : a) {
             max = Math.max(max, v);
             min = Math.min(min, v);
         }
 
         return new double[]{min,max};
+    }
+
+    boolean[] getSeive(int n) {
+        boolean[] isPrime;
+        isPrime = new boolean[n + 1];
+
+        // assume all numbers are prime initially
+        for (int i = 2; i <= n; i++) {
+            isPrime[i] = true;
+        }
+
+        // Sieve logic
+        for (int i = 2; i * i <= n; i++) {
+            if (isPrime[i]) {
+                // mark all multiples of i as not prime
+                for (int j = i * i; j <= n; j += i) {
+                    isPrime[j] = false;
+                }
+            }
+        }
+
+        return isPrime;
+    }
+
+    DSU getDSU(int n){
+        return new DSU(n);
+    }
+
+    Trie getTrie(){
+        return new Trie();
     }
 
     class DSU {
@@ -765,6 +884,9 @@ class Helper
             return findPar(x) == findPar(y);
         }
 
+        int getSizeOfComponent(int n){
+            return size[findPar(n)];
+        }
     }
 
     class Trie {
@@ -845,7 +967,7 @@ class Helper
         }
     }
 
-    private class FastReader
+    private static class FastReader
     {
         BufferedReader br;
         StringTokenizer st;
@@ -864,6 +986,11 @@ class Helper
         public int nextInt() throws Exception
         {
             return Integer.parseInt(next());
+        }
+
+        public char nextChar() throws Exception
+        {
+            return next().charAt(0);
         }
 
         public long nextLong() throws Exception

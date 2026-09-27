@@ -1,0 +1,22 @@
+ERROR: ORD001|Duplicate User|Laptop|1|999.99|2024-03-15 -> Duplicate OrderID
+ERROR: ORD007|Mike Ross|Printer|2|300.00 -> Invalid number of fields
+ERROR: ORD008|Rachel Zane||2|300.00|2024-03-14 -> Empty product name
+ERROR: ORD009|Harvey Specter|Desk|1|400.00|2024-03-13|EXTRA -> Invalid number of fields
+ERROR: ORD010,Donna Paulsen,Chair,2,150.00,2024-03-13 -> Invalid number of fields
+ERROR: This is not a valid record -> Invalid number of fields
+ERROR: ||||| -> Invalid number of fields
+ERROR: |NoID|Laptop|2|999.99|2024-03-15 -> Invalid OrderID format (must start with ORD)
+ERROR: ORD|NoNumber|Laptop|2|999.99|2024-03-15 -> Invalid OrderID format (missing number)
+ERROR: ORDABC|InvalidID|Laptop|2|999.99|2024-03-15 -> Invalid OrderID format (non-digit found)
+ERROR: ORD011|John Smith|Laptop|-2|999.99|2024-03-15 -> Negative quantity
+ERROR: ORD012|John Smith|Laptop|0|999.99|2024-03-15 -> Zero quantity
+ERROR: ORD013|Alice Brown|Phone|2.5|500.00|2024-03-10 -> Invalid quantity
+ERROR: ORD014|Alice Brown|Phone|abc|500.00|2024-03-10 -> Invalid quantity
+ERROR: ORD015|Bob Lee|Tablet|2|-100.00|2024-03-12 -> Negative unit price
+ERROR: ORD016|Bob Lee|Tablet|2|abc|2024-03-12 -> Invalid unit price
+ERROR: ORD017|Emma Davis|Monitor|1|300.00|15-03-2024 -> Invalid date format
+ERROR: ORD018|Emma Davis|Monitor|1|300.00|2024-02-30 -> Invalid date format
+ERROR: ORD019|Emma Davis|Monitor|1|300.00|invalid-date -> Invalid date format
+ERROR: ORD020|Emma Davis|Monitor|1|300.00| -> Invalid number of fields
+ERROR: ORD022|Big Buyer|Server|100000|99999.99|2024-03-01 -> Selected quantity not available
+ERROR: ORD002|Alice Brown|Phone|1|600.00|2024-03-10 -> Duplicate OrderID
